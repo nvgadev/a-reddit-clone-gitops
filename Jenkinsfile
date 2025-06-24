@@ -15,7 +15,7 @@ pipeline {
          stage("Checkout from SCM") {
              steps {
                      // git branch: 'main', credentialsId: 'github_UP', url: 'https://github.com/nvgadev/a-reddit-clone-gitops'
-                     git branch: 'main', url: 'https://github.com/nvgadev/a-reddit-clone.git'
+                     git branch: 'main', url: 'https://github.com/nvgadev/a-reddit-clone-gitops.git'
              }
          }
          stage("Update the Deployment Tags") {
@@ -36,7 +36,7 @@ pipeline {
                     git commit -m "Updated Deployment Manifest"
                 """
                 withCredentials([gitUsernamePassword(credentialsId: 'github_UP', gitToolName: 'Default')]) {
-                    sh "git push https://github.com/nvgadev/a-reddit-clone.git main"
+                    sh "git push https://github.com/nvgadev/a-reddit-clone-gitops.git"
                 }
             }
          }
