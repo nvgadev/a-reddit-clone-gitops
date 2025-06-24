@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    parameters {
+        string(name: 'IMAGE_TAG', defaultValue: '', description: '')
+    }
     environment {
           APP_NAME = "reddit-clone-pipeline"
     }
@@ -11,7 +14,8 @@ pipeline {
          }
          stage("Checkout from SCM") {
              steps {
-                     git branch: 'main', credentialsId: 'github', url: 'https://github.com/Ashfaque-9x/a-reddit-clone-gitops'
+                     // git branch: 'main', credentialsId: 'github_UP', url: 'https://github.com/nvgadev/a-reddit-clone-gitops'
+                     git branch: 'main', url: 'https://github.com/nvgadev/a-reddit-clone.git'
              }
          }
          stage("Update the Deployment Tags") {
@@ -26,13 +30,13 @@ pipeline {
          stage("Push the changed deployment file to GitHub") {
             steps {
                 sh """
-                    git config --global user.name "Ashfaque-9x"
-                    git config --global user.email "ashfaque.s510@gmail.com"
+                    git config --global user.name "nvgadev"
+                    git config --global user.email "gopi.dev999@gmail.com"
                     git add deployment.yaml
                     git commit -m "Updated Deployment Manifest"
                 """
-                withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]) {
-                    sh "git push https://github.com/Ashfaque-9x/a-reddit-clone-gitops main"
+                withCredentials([gitUsernamePassword(credentialsId: 'github_UP', gitToolName: 'Default')]) {
+                    sh "git push https://github.com/nvgadev/a-reddit-clone.git main"
                 }
             }
          }
